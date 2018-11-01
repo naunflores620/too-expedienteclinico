@@ -1,4 +1,4 @@
-# SoftClinic- Expediente clinico  
+# SoftClinic - Expediente clinico  
 ## Sistema web para la administracion de clinicas
 ### Correr los siguientes comandos despues de clonar el repositorio:
 * `composer update --no-scripts`
