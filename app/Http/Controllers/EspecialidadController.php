@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Especialidad;
 
+
 class EspecialidadController extends Controller
 {
     /**
@@ -12,10 +13,34 @@ class EspecialidadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $especialidades = Especialidad::all();
-        return $especialidades;
+      if (!$request->ajax()) return redirect('/');
+
+        $buscar=$request->buscar;
+        $criterio=$request->criterio;
+
+        if($buscar==''){
+            $especialidades = Especialidad::orderBy('id', 'desc')->paginate(3);
+        }
+        else {
+            $especialidades = Especialidad::where($criterio,'like','%'. $buscar .'%')->orderBy('id','desc')->paginate(3);
+        }
+
+        return [
+            'pagination'=> [
+                'total'        => $especialidades->total(),
+                'current_page' => $especialidades->currentPage(),
+                'per_page'     => $especialidades->perPage(),
+                'last_page'    => $especialidades->lastPage(),
+                'from'         => $especialidades->firstItem(),
+                'to'           => $especialidades->lastItem(),
+            ],
+            'especialidades'=> $especialidades
+        ];
+
+     
+       
     }
     
     /**

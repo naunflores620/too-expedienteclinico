@@ -15,7 +15,7 @@ class CreateSignosVitalesTable extends Migration
     {
         Schema::create('signos_vitales', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombtre', 50);
+            $table->string('nombre', 50);
             $table->string('unidadDeMedida', 256);
             $table->timestamps();
         });

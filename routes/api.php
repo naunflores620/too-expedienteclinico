@@ -43,10 +43,10 @@ Route::put('/municipio', 'MunicipioController@update');
 Route::delete('/municipio', 'MunicipioController@destroy');
 
 //Rutas de los signos vitales
-Route::get('/signosvitales', 'SignoVitalController@index');
+/*Route::get('/signosvitales', 'SignoVitalController@index');
 Route::post('/signosvitales', 'SignoVitalController@store');
 Route::put('/signosvitales', 'SignoVitalController@update');
-Route::delete('/signosvitales', 'SignoVitalController@destroy');
+Route::delete('/signosvitales', 'SignoVitalController@destroy');*/
 // Ruta de las direcciones
 Route::get('/direccion', 'DireccionController@index');
 Route::post('/direccion', 'DireccionController@store');

@@ -12,9 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('contenido/contenido');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Rutas de las especialidades
+Route::get('/especialidad', 'EspecialidadController@index');
+Route::post('/especialidad/registrar', 'EspecialidadController@store');
+Route::put('/especialidad/actualizar', 'EspecialidadController@update');
+
+//Rutas de los signos vitales
+Route::get('/signosvitales', 'SignoVitalController@index');
+Route::post('/signosvitales/registrar', 'SignoVitalController@store');
+Route::put('/signosvitales/actualizar', 'SignoVitalController@update');
+
+//Rutas de Medicamentos
+Route::get('/medicamento', 'MedicamentoController@index');
+Route::post('/medicamento/registrar', 'MedicamentoController@store');
+Route::put('/medicamento/actualizar', 'MedicamentoController@update');
