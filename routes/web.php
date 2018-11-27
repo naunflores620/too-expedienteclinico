@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -12,9 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Contenido/mantenimientoExamen');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/examen', 'ExamenController@index');
+Route::post('/examen/registrar', 'ExamenController@store');
+Route::put('/examen/actualizar', 'ExamenController@update');
+Route::put('/examen/activar', 'ExamenController@activar');
+Route::put('/examen/desactivar', 'ExamenController@desactivar');
