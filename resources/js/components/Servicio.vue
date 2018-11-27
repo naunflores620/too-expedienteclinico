@@ -6,8 +6,8 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Especialidad
-                        <button type="button" @click="abrirModal('especialidad','registrar')" class="btn btn-secondary">
+                        <i class="fa fa-align-justify"></i> Servicios
+                        <button type="button" @click="abrirModal('servicio','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -16,11 +16,11 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="id">id</option>
-                                      <option value="especialidad">Especialidad</option>
+                                      <option value="servicio">Servicio</option>
+                                      <option value="descripcion">Descripcion</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarEspecialidad(1,buscar, criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarEspecialidad(1,buscar, criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarServicio(1,buscar, criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" @click="listarServicio(1,buscar, criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -28,23 +28,25 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Id</th>
                                     <th>Especialidad</th>
-                                    <!--<th>Estado</th>-->
+                                    <th>Servicio</th>
+                                    <th>Descripcion</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="especialidad in arrayEspecialidad" :key="especialidad.id">
+                                <tr v-for="servicio in arrayServicio" :key="servicio.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('especialidad','actualizar',especialidad)" class="btn btn-warning btn-sm">
+                                        <button type="button" @click="abrirModal('servicio','actualizar',servicio)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         <button type="button" class="btn btn-danger btn-sm">
                                           <i class="icon-trash"></i>
                                         </button>
                                     </td>
-                                    <td v-text="especialidad.id"></td>
-                                    <td v-text="especialidad.especialidad"></td>
+                                    <td v-text="servicio.nombre_especialidad"></td>
+                                    <td v-text="servicio.servicio"></td>
+                                    <td v-text="servicio.descripcion"></td>
                                     <!--<td>
                                         
                                         <div v-if="especialidad.condicion">
@@ -97,16 +99,33 @@
                                     </div>
                                 </div> -->
 
-                                <div class="form-group row">
+                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Especialidad</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="especialidad" class="form-control" placeholder="Ingrese especialidad">
+                                      <select class="form-control" v-model="especialidad_id"> <!--"especialidad_id" de la propiedad data-->
+                                        <option value="0" disabled>Seleccione la especialidad</option>
+                                        <option v-for="especialidad in arrayEspecialidad" :key="especialidad.id" :value="especialidad.id" v-text="especialidad.especialidad"></option>
+                                      </select>  
                                     </div>
                                 </div>
 
-                                <div v-show="errorEspecialidad" class="form-group row div-error">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="email-input">Servicio</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="servicio" class="form-control" placeholder="Ingrese el nombre del servicio">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="email-input">Descripcion</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="descripcion" class="form-control" placeholder="Ingrese la descripcion del servicio">
+                                    </div>
+                                </div>
+
+                                <div v-show="errorServicio" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjEspecialidad" :key="error" v-text="error">
+                                        <div v-for="error in errorMostrarMsjServicio" :key="error" v-text="error">
                                         </div>
                                     </div>
                                 </div>
@@ -115,8 +134,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarEspecialidad()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarEspecialidad()">Actualizar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarServicio()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarServicio()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -157,14 +176,17 @@
         data(){
            return {
             
-               id:0,
-               especialidad: '',
-               arrayEspecialidad: [],
+               servicio_id: 0,
+               especialidad_id: 0,
+               nombre_especialidad: '',
+               servicio:'', //nombre del servicio
+               descripcion:'',
+               arrayServicio: [],
                modal:0,
                tituloModal:'',
                tipoAccion: 0,
-               errorEspecialidad: 0,
-               errorMostrarMsjEspecialidad: [],
+               errorServicio: 0,
+               errorMostrarMsjServicio: [],
                
                pagination: {
                 'total' : 0,     
@@ -175,8 +197,9 @@
                 'to' : 0,
                },
                offset:3,
-               criterio: 'especialidad',
-               buscar: ''
+               criterio: 'servicio',
+               buscar: '',
+               arrayEspecialidad:[]
            }
         },
          computed:{
@@ -205,12 +228,12 @@
              }
          },
         methods: {
-            listarEspecialidad(page,buscar,criterio){
+            listarServicio(page,buscar,criterio){
                 let me=this;
-                var url='/especialidad?page='+ page + '&buscar=' + buscar + '&criterio=' + criterio; 
+                var url='/servicio?page='+ page + '&buscar=' + buscar + '&criterio=' + criterio; 
                 axios.get(url).then(function (response) {
                  var respuesta = response.data;
-                 me.arrayEspecialidad = respuesta.especialidades.data;
+                 me.arrayServicio = respuesta.servicios.data;
                  me.pagination = respuesta.pagination;
                 })
                 .catch(function (error) {
@@ -219,27 +242,41 @@
                  });
 
             },
+            selectEspecialidad(){
+                let me=this;
+                var url='/especialidad/selectEspecialidad'; 
+                axios.get(url).then(function (response) {
+                // console.log(response);
+                var respuesta = response.data;
+                me.arrayEspecialidad = respuesta.especialidades;
+                })
+                .catch(function (error) {
+                // handle error
+                consosle.log(error);
+                 });
+            },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la pagina actual
                 me.pagination.current_page=page;
                 //Enviar la peticion para visualizar la data de esa pagina
-                me.listarEspecialidad(page,buscar,criterio);
+                me.listarServicio(page,buscar,criterio);
             },
-            registrarEspecialidad(){
-               if(this.validarEspecialidad()){
+            registrarServicio(){
+               if(this.validarServicio()){
                    return; 
                }
                
                let me= this;
                 
-                axios.post('/especialidad/registrar',{
-                    'especialidad':this.especialidad
+                axios.post('/servicio/registrar',{
+                    'especialidad_id': this.especialidad_id,
+                    'servicio':this.servicio,
+                    'descripcion':this.descripcion
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarEspecialidad(1,'','especialidad'); 
-                 // handle success
-                 me.arrayEspecialidad = response.data;
+                    me.listarServicio(1,'','servicio'); 
+                 
                 })
                 .catch(function (error) {
                 // handle error
@@ -247,19 +284,21 @@
                  });
             },
 
-            actualizarEspecialidad(){
-                if(this.validarEspecialidad()){
+            actualizarServicio(){
+                if(this.validarServicio()){
                    return; 
                }
                
                let me= this;
                 
-                axios.put('/especialidad/actualizar',{
-                    'especialidad':this.especialidad,
-                    'id': this.id,
+                axios.put('/servicio/actualizar',{
+                    'especialidad_id': this.especialidad_id,
+                    'servicio':this.servicio,
+                    'descripcion':this.descripcion,
+                    'id': this.servicio_id
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarEspecialidad(1,'','especialidad'); 
+                    me.listarServicio(1,'','servicio'); 
                  // handle success
                  me.arrayEspecialidad = response.data;
                 })
@@ -269,29 +308,38 @@
                  });
 
             },
-            validarEspecialidad(){
-                this.errorEspecialidad=0;
-                this.errorMostrarMsjEspecialidad= [];
-                if(!this.especialidad) this.errorMostrarMsjEspecialidad.push("Este campo no debe estar vacio");
+            validarServicio(){
+                this.errorServicio=0;
+                this.errorMostrarMsjServicio= [];
+                if(!this.especialidad_id != 0) this.errorMostrarMsjServicio.push("Seleccione una especialidad"); //OJOOOOO!!!!!! AQUI EN DONDE LE CAMBIE DE "==" A "!=" NO ES SI ESTE BIEN, PERO "FUNCIONA".
+                if(!this.servicio) this.errorMostrarMsjServicio.push("El nombre del servicio no debe estar vacio");
+                if(!this.descripcion) this.errorMostrarMsjServicio.push("La descripcion no puede estar vacia");
 
-                if(this.errorMostrarMsjEspecialidad.length) this.errorEspecialidad=1;
-                return this.errorEspecialidad;
+                if(this.errorMostrarMsjServicio.length) this.errorServicio=1;
+                return this.errorServicio;
             },
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
-                this.especialidad='';
+                this.especialidad_id=0;
+                this.nombre_especialidad= '';
+                this.servicio='';
+                this.descripcion='';
+                this.errorServicio=0;
             },
             abrirModal(modelo, accion, data=[]){
                 switch(modelo){
-                    case "especialidad":
+                    case "servicio":
                     {
                         switch(accion){
                             case 'registrar':
                             {
                                 this.modal=1;
-                                this.tituloModal='Registrar Especialidad';
-                                this.especialidad='';
+                                this.tituloModal='Registrar Servicio';
+                                this.especialidad_id= 0;
+                                this.nombre_especialidad='';
+                                this.servicio='';
+                                this.descripcion='';
                                 this.tipoAccion= 1;
                                 break;
                             }
@@ -299,20 +347,23 @@
                             {
                                // console.log(data);
                                this.modal=1;
-                               this.tituloModal='Actualizar Especialidad';
+                               this.tituloModal='Actualizar servicio';
                                this.tipoAccion=2;
-                               this.id=data['id'];
-                               this.especialidad=data['especialidad'];
+                               this.servicio_id=data['id'];
+                               this.especialidad_id=data['especialidad_id'];
+                               this.servicio=data['servicio'];
+                               this.descripcion=data['descripcion'];
                                break;
                             }
                         }
                     }
                 }
+                this.selectEspecialidad(); //le agragamos esta madre, NO olvidar u:< No confundir 
 
             }
         },
         mounted() {
-           this.listarEspecialidad(1,this.buscar,this.criterio);
+           this.listarServicio(1,this.buscar,this.criterio);
         }
     }
 </script>

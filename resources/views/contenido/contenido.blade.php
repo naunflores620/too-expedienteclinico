@@ -3,7 +3,7 @@
 
        <!--<especialidad></especialidad>-->
        <!--<signosvitales></signosvitales>-->
-        <medicamento></medicamento>
-          
+       <!--<medicamento></medicamento>-->
+       <servicio></servicio>
         
         @endsection

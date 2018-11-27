@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/especialidad', 'EspecialidadController@index');
 Route::post('/especialidad/registrar', 'EspecialidadController@store');
 Route::put('/especialidad/actualizar', 'EspecialidadController@update');
+Route::get('/especialidad/selectEspecialidad', 'EspecialidadController@selectEspecialidad');
 
 //Rutas de los signos vitales
 Route::get('/signosvitales', 'SignoVitalController@index');
@@ -33,3 +34,10 @@ Route::put('/signosvitales/actualizar', 'SignoVitalController@update');
 Route::get('/medicamento', 'MedicamentoController@index');
 Route::post('/medicamento/registrar', 'MedicamentoController@store');
 Route::put('/medicamento/actualizar', 'MedicamentoController@update');
+
+//Rutas para Servicio
+Route::get('/servicio', 'ServicioController@index');
+Route::post('/servicio/registrar', 'ServicioController@store');
+Route::put('/servicio/actualizar', 'ServicioController@update');
+
+
