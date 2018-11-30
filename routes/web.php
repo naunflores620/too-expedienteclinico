@@ -40,4 +40,10 @@ Route::get('/servicio', 'ServicioController@index');
 Route::post('/servicio/registrar', 'ServicioController@store');
 Route::put('/servicio/actualizar', 'ServicioController@update');
 
+//Rutas para Profesionales en Medicina
+Route::get('/pem', 'ProfesionalEnMedicinaController@index');
+Route::post('/pem/registrar','ProfesionalEnMedicinaController@store');
+Route::put('/pem/actualizar', 'ProfesionalEnMedicinaController@update');
 
+//Rutas de trabajador
+Route::get('/trabajador/selectTrabajador','TrabajadorController@selectTrabajador');

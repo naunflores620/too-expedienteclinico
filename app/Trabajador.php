@@ -11,4 +11,8 @@ class Trabajador extends Model
     public function persona(){
         return $this->belongsTo('App\Persona', 'persona_id');
     }
+
+    public function profesionalEnMedicina(){
+        return $this->hasMany('App\ProfesionalEnMedicina');
+    }
 }

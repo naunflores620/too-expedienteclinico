@@ -12,4 +12,8 @@ class Especialidad extends Model
     public function servicio(){
         return $this->hasMany('App\Servicio');
     }
+
+    public function profesionalEnMedicina(){
+        return $this->hasMany('App\ProfesionalEnMedicina');
+    }
 }

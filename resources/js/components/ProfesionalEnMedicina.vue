@@ -6,8 +6,8 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Servicios
-                        <button type="button" @click="abrirModal('servicio','registrar')" class="btn btn-secondary">
+                        <i class="fa fa-align-justify"></i> Profesionales en Medicina
+                        <button type="button" @click="abrirModal('profesionalEnMedicina','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -16,11 +16,12 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="servicio">Servicio</option>
-                                      <option value="descripcion">Descripcion</option>
+                                      <option value="JVPM">JVPM</option>
+                                    <!--  <option value="especialidad">Especialidad</option>
+                                      <option value="nit">NIT</option>-->
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarServicio(1,buscar, criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarServicio(1,buscar, criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarPem(1,buscar, criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" @click="listarPem(1,buscar, criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -28,25 +29,24 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
+                                    <th>JVPM</th>
                                     <th>Especialidad</th>
-                                    <th>Servicio</th>
-                                    <th>Descripcion</th>
-                                   
+                                    <th>NIT</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="servicio in arrayServicio" :key="servicio.id">
+                                <tr v-for="pem in arrayPem" :key="pem.id"> <!--objeto pem-->
                                     <td>
-                                        <button type="button" @click="abrirModal('servicio','actualizar',servicio)" class="btn btn-warning btn-sm">
+                                        <button type="button" @click="abrirModal('profesionalEnMedicina','actualizar',pem)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         <button type="button" class="btn btn-danger btn-sm">
                                           <i class="icon-trash"></i>
                                         </button>
                                     </td>
-                                    <td v-text="servicio.nombre_especialidad"></td>
-                                    <td v-text="servicio.servicio"></td>
-                                    <td v-text="servicio.descripcion"></td>
+                                    <td v-text="pem.JVPM"></td>
+                                    <td v-text="pem.especialidad"></td>
+                                    <td v-text="pem.nit"></td>
                                     <!--<td>
                                         
                                         <div v-if="especialidad.condicion">
@@ -99,33 +99,34 @@
                                     </div>
                                 </div> -->
 
-                                 <div class="form-group row">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="email-input">JVPM</label>
+                                    <div class="col-md-9">
+                                        <input type="number" v-model="JVPM" class="form-control" placeholder="Ingrese el JVPM">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Especialidad</label>
                                     <div class="col-md-9">
-                                      <select class="form-control" v-model="especialidad_id"> <!--"especialidad_id" de la propiedad data-->
-                                        <option value="0" disabled>Seleccione la especialidad</option>
+                                       <select class="form-control" v-model="especialidad_id">
+                                          <option value="0" disabled>Seleccione la especialidad</option>
                                         <option v-for="especialidad in arrayEspecialidad" :key="especialidad.id" :value="especialidad.id" v-text="especialidad.especialidad"></option>
-                                      </select>  
+                                       </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Servicio</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">NIT</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="servicio" class="form-control" placeholder="Ingrese el nombre del servicio">
+                                       <select class="form-control" v-model="trabajador_id">
+                                           <option value="0" disabled >Seleccione el NIT</option>
+                                          <option v-for="trabajador in arrayTrabajador" :key="trabajador.id" :value="trabajador.id" v-text="trabajador.nit"></option>
+                                       </select>
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Descripcion</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="descripcion" class="form-control" placeholder="Ingrese la descripcion del servicio">
-                                    </div>
-                                </div>
-
-                                <div v-show="errorServicio" class="form-group row div-error">
+                                <div v-show="errorPem" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjServicio" :key="error" v-text="error">
+                                        <div v-for="error in errorMostrarMsjPem" :key="error" v-text="error">
                                         </div>
                                     </div>
                                 </div>
@@ -134,8 +135,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarServicio()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarServicio()">Actualizar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarPem()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarPem()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -176,17 +177,18 @@
         data(){
            return {
             
-               servicio_id: 0,
-               especialidad_id: 0,
-               nombre_especialidad: '',
-               servicio:'', //nombre del servicio
-               descripcion:'',
-               arrayServicio: [],
+               pem_id:0,
+               trabajador_id:0,
+               especialidad_id:0,
+               especialidad:'',
+               trabajador_nit:'',
+               JVPM:0,
+               arrayPem: [],
                modal:0,
                tituloModal:'',
                tipoAccion: 0,
-               errorServicio: 0,
-               errorMostrarMsjServicio: [],
+               errorPem: 0,
+               errorMostrarMsjPem: [],
                
                pagination: {
                 'total' : 0,     
@@ -197,9 +199,10 @@
                 'to' : 0,
                },
                offset:3,
-               criterio: 'servicio',
+               criterio: 'JVPM',
                buscar: '',
-               arrayEspecialidad:[]
+               arrayEspecialidad:[],
+               arrayTrabajador:[]
            }
         },
          computed:{
@@ -228,12 +231,12 @@
              }
          },
         methods: {
-            listarServicio(page,buscar,criterio){
+            listarPem(page,buscar,criterio){
                 let me=this;
-                var url='/servicio?page='+ page + '&buscar=' + buscar + '&criterio=' + criterio; 
+                var url='/pem?page='+ page + '&buscar=' + buscar + '&criterio=' + criterio; 
                 axios.get(url).then(function (response) {
                  var respuesta = response.data;
-                 me.arrayServicio = respuesta.servicios.data;
+                 me.arrayPem = respuesta.profesionalesEnMedicina.data;
                  me.pagination = respuesta.pagination;
                 })
                 .catch(function (error) {
@@ -246,37 +249,51 @@
                 let me=this;
                 var url='/especialidad/selectEspecialidad'; 
                 axios.get(url).then(function (response) {
-                // console.log(response);
-                var respuesta = response.data;
-                me.arrayEspecialidad = respuesta.especialidades;
+                 //  console.log(response); 
+                 var respuesta = response.data;
+                 me.arrayEspecialidad = respuesta.especialidades;
                 })
                 .catch(function (error) {
                 // handle error
-                consosle.log(error);
+                console.log(error);
                  });
+                
+            },
+             selectTrabajador(){
+                let me=this;
+                var url='/trabajador/selectTrabajador'; 
+                axios.get(url).then(function (response) {
+               //    console.log(response); 
+                 var respuesta = response.data;
+                 me.arrayTrabajador = respuesta.trabajador;
+               })
+                .catch(function (error) {
+                // handle error
+                console.log(error);
+                 });
+                
             },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la pagina actual
                 me.pagination.current_page=page;
                 //Enviar la peticion para visualizar la data de esa pagina
-                me.listarServicio(page,buscar,criterio);
+                me.listarPem(page,buscar,criterio);
             },
-            registrarServicio(){
-               if(this.validarServicio()){
+            registrarPem(){
+               if(this.validarPem()){
                    return; 
                }
                
                let me= this;
                 
-                axios.post('/servicio/registrar',{
-                    'especialidad_id': this.especialidad_id,
-                    'servicio':this.servicio,
-                    'descripcion':this.descripcion
+                axios.post('/pem/registrar',{
+                    'especialidad_id':this.especialidad_id,
+                    'trabajador_id':this.trabajador_id,
+                    'JVPM':this.JVPM
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarServicio(1,'','servicio'); 
-                 
+                    me.listarPem(1,'','JVPM'); 
                 })
                 .catch(function (error) {
                 // handle error
@@ -284,23 +301,21 @@
                  });
             },
 
-            actualizarServicio(){
-                if(this.validarServicio()){
+            actualizarPem(){
+                if(this.validarPem()){
                    return; 
                }
                
                let me= this;
                 
-                axios.put('/servicio/actualizar',{
-                    'especialidad_id': this.especialidad_id,
-                    'servicio':this.servicio,
-                    'descripcion':this.descripcion,
-                    'id': this.servicio_id
+                axios.put('/pem/actualizar',{
+                    'especialidad_id':this.especialidad_id,
+                    'trabajador_id':this.trabajador_id,
+                    'JVPM':this.JVPM,
+                    'id': this.pem_id
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarServicio(1,'','servicio'); 
-                 // handle success
-                 me.arrayEspecialidad = response.data;
+                    me.listarPem(1,'','JVPM'); 
                 })
                 .catch(function (error) {
                 // handle error
@@ -308,38 +323,40 @@
                  });
 
             },
-            validarServicio(){
-                this.errorServicio=0;
-                this.errorMostrarMsjServicio= [];
-                if(this.especialidad_id == 0) this.errorMostrarMsjServicio.push("Seleccione una especialidad"); //OJOOOOO!!!!!! AQUI EN DONDE LE CAMBIE DE "==" A "!=" NO ES SI ESTE BIEN, PERO "FUNCIONA".
-                if(!this.servicio) this.errorMostrarMsjServicio.push("El nombre del servicio no debe estar vacio");
-                if(!this.descripcion) this.errorMostrarMsjServicio.push("La descripcion no puede estar vacia");
+            validarPem(){
+                this.errorPem=0;
+                this.errorMostrarMsjPem= [];
+                 if(this.especialidad_id == 0) this.errorMostrarMsjPem.push("Seleccione una especialidad");
+                 if(this.trabajador_id == 0) this.errorMostrarMsjPem.push("Seleccione un trabajador");
+                 if(!this.JVPM) this.errorMostrarMsjPem.push("El numero del JVPM no debe estar vacio y debe ser un numero entero");
 
-                if(this.errorMostrarMsjServicio.length) this.errorServicio=1;
-                return this.errorServicio;
+                if(this.errorMostrarMsjPem.length) this.errorPem=1;
+                return this.errorPem;
             },
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
-                this.especialidad_id=0;
-                this.nombre_especialidad= '';
-                this.servicio='';
-                this.descripcion='';
-                this.errorServicio=0;
+                this.especialidad_id= 0;
+                this.trabajador_id= 0;
+                this.especialidad='';
+                this.trabajador_nit='';
+                this.JVPM= 0;
+                this.errorPem= 0;
             },
             abrirModal(modelo, accion, data=[]){
                 switch(modelo){
-                    case "servicio":
+                    case "profesionalEnMedicina":
                     {
                         switch(accion){
                             case 'registrar':
                             {
                                 this.modal=1;
-                                this.tituloModal='Registrar Servicio';
+                                this.tituloModal='Registrar Profesional en medicina';
                                 this.especialidad_id= 0;
-                                this.nombre_especialidad='';
-                                this.servicio='';
-                                this.descripcion='';
+                                this.trabajador_id= 0;
+                                this.especialidad='';
+                                this.trabajador_nit='';
+                                this.JVPM= 0;
                                 this.tipoAccion= 1;
                                 break;
                             }
@@ -347,23 +364,24 @@
                             {
                                // console.log(data);
                                this.modal=1;
-                               this.tituloModal='Actualizar servicio';
+                               this.tituloModal='Actualizar Profesional en medicina';
                                this.tipoAccion=2;
-                               this.servicio_id=data['id'];
-                               this.especialidad_id=data['especialidad_id'];
-                               this.servicio=data['servicio'];
-                               this.descripcion=data['descripcion'];
+                               this.pem_id=data['id'];
+                               this.especialidad_id= data['especialidad_id'];
+                               this.trabajador_id= data['trabajador_id'];
+                               this.JVPM=data['JVPM'];
                                break;
                             }
                         }
                     }
                 }
-                this.selectEspecialidad(); //le agragamos esta madre, NO olvidar u:< No confundir 
+                this.selectEspecialidad();
+                this.selectTrabajador();
 
             }
         },
         mounted() {
-           this.listarServicio(1,this.buscar,this.criterio);
+           this.listarPem(1,this.buscar,this.criterio);
         }
     }
 </script>
