@@ -47,3 +47,7 @@ Route::put('/pem/actualizar', 'ProfesionalEnMedicinaController@update');
 
 //Rutas de trabajador
 Route::get('/trabajador/selectTrabajador','TrabajadorController@selectTrabajador');
+
+Route::get('/clinica', function () {
+    return view('clinica/clinica');
+});
