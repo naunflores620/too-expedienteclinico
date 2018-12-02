@@ -4,6 +4,8 @@
        <especialidad></especialidad>
        <!--<signosvitales></signosvitales>-->
        <!--<medicamento></medicamento>-->
-       <!--<servicio></servicio>-->
+       <!-- <servicio></servicio> -->
        <!-- <profesionalenmedicina></profesionalenmedicina> -->
+       <!-- <consulta></consulta> -->
+
         @endsection

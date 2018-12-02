@@ -51,3 +51,15 @@ Route::get('/trabajador/selectTrabajador','TrabajadorController@selectTrabajador
 Route::get('/clinica', function () {
     return view('clinica/clinica');
 });
+
+Route::get('/consulta', function () {
+    return view('consulta/consulta');
+});
+
+Route::get('/especialidades', function () {
+    return view('especialidad/especialidad');
+});
+
+Route::get('/signovital', function () {
+    return view('signosvitales/signosvitales');
+});
