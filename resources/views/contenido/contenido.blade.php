@@ -1,9 +1,9 @@
 @extends('pruebaG')
 @section('contenido')
 
-       <!--<especialidad></especialidad>-->
+       <especialidad></especialidad>
        <!--<signosvitales></signosvitales>-->
        <!--<medicamento></medicamento>-->
        <!--<servicio></servicio>-->
-       <profesionalenmedicina></profesionalenmedicina>
+       <!-- <profesionalenmedicina></profesionalenmedicina> -->
         @endsection
