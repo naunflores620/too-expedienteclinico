@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\SignoVital;
+use App\Medicamento;
 
-class SignoVitalController extends Controller
+class MedicamentoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,28 +14,27 @@ class SignoVitalController extends Controller
      */
     public function index(Request $request)
     {
-       // if (!$request->ajax()) return redirect('/');
-
-        $buscar=$request->buscar;
-        $criterio=$request->criterio;
-
-        if($buscar==''){
-            $signoVital = SignoVital::orderBy('id', 'desc')->paginate(3);
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+        
+        if ($buscar==''){
+            $medicamentos = Medicamento::orderBy('id', 'desc')->paginate(3);
         }
-        else {
-            $signoVital = SignoVital::where($criterio,'like','%'. $buscar .'%')->orderBy('id','desc')->paginate(3);
+        else{
+            $medicamentos = Medicamento::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
         }
+        
 
         return [
-            'pagination'=> [
-                'total'        => $signoVital->total(),
-                'current_page' => $signoVital->currentPage(),
-                'per_page'     => $signoVital->perPage(),
-                'last_page'    => $signoVital->lastPage(),
-                'from'         => $signoVital->firstItem(),
-                'to'           => $signoVital->lastItem(),
+            'pagination' => [
+                'total'        => $medicamentos->total(),
+                'current_page' => $medicamentos->currentPage(),
+                'per_page'     => $medicamentos->perPage(),
+                'last_page'    => $medicamentos->lastPage(),
+                'from'         => $medicamentos->firstItem(),
+                'to'           => $medicamentos->lastItem(),
             ],
-            'signoVital'=> $signoVital
+            'medicamentos' => $medicamentos
         ];
     }
 
@@ -58,11 +56,11 @@ class SignoVitalController extends Controller
      */
     public function store(Request $request)
     {
-        $signoVital = new SignoVital();
-        $signoVital->nombre = $request->nombre;
-        $signoVital->unidadDeMedida = $request->unidadDeMedida;
-        $signoVital->save();
-         return $signoVital;
+        $medicamento = new Medicamento();
+        $medicamento->nombre = $request->nombre;
+        $medicamento->descripcion = $request->descripcion;
+        $medicamento->unidadDeMedida = $request->unidadDeMedida;
+        $medicamento->save();
     }
 
     /**
@@ -96,12 +94,12 @@ class SignoVitalController extends Controller
      */
     public function update(Request $request)
     {
-        $signoVital = SignoVital::findOrFail($request->id);
-        $signoVital->nombre = $request->nombre;
-        $signoVital->unidadDeMedida = $request->unidadDeMedida;
-        $signoVital->save();
-        return $signoVital;
-        }
+        $medicamento = Medicamento::findOrFail($request->id);
+        $medicamento->nombre = $request->nombre;
+        $medicamento->descripcion = $request->descripcion;
+        $medicamento->unidadDeMedida = $request->unidadDeMedida;
+        $medicamento->save();
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -109,9 +107,8 @@ class SignoVitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-       SignoVital::destroy( $request->id); 
-
+        //
     }
 }

@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Servicio extends Model
 {
     protected $table= 'servicio';
-    protected $fillable = ['nombre','apellidos', 'especialidad_id'];
+    protected $fillable = ['especialidad_id','servicio','descripcion'];
+    
     public function especialidad(){
-        return $this->belongsTo('App\Especialidad', 'especialidad_id');
+        return $this->belongsTo('App\Especialidad');
     }
 }

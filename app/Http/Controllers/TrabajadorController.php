@@ -23,6 +23,13 @@ class TrabajadorController extends Controller
                                 return $trabajador;
     }
 
+    public function selectTrabajador(Request $request){
+
+      if (!$request->ajax()) return redirect('/');
+        $trabajador=Trabajador::where('id', '!=','0')
+        ->select('id','nit')->orderBy('nit','asc')->get();
+        return ['trabajador' => $trabajador];
+    }
     /**
      * Show the form for creating a new resource.
      *

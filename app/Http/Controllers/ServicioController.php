@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Servicio;
-use App\Especialidad;
+
 
 class ServicioController extends Controller
 {
@@ -14,12 +14,38 @@ class ServicioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $servicios= Servicio::join('especialidades','servicio.especialidad_id','=', 'especialidades.id')
-        ->select('servicio.id','servicio.servicio','servicio.descripcion','servicio.especialidad_id','especialidades.id')
-        ->orderBy('servicio.id','desc')->get();
-        return $servicios;
+         if (!$request->ajax()) return redirect('/');
+
+        $buscar=$request->buscar;
+        $criterio=$request->criterio;
+        
+        //"servicio" y "especialidades" son las tablas de la BD, al igual que cada uno de los campos luego del punto, son las respectivas columnas de cada tabla
+        if($buscar==''){
+            $servicios = Servicio::join('especialidades','servicio.especialidad_id','=','especialidades.id')
+            ->select('servicio.id','servicio.especialidad_id','servicio.servicio','servicio.descripcion','especialidades.especialidad as nombre_especialidad')
+            ->orderBy('servicio.id', 'desc')->paginate(3);
+        }
+        else {
+            $servicios = Servicio::join('especialidades','servicio.especialidad_id','=','especialidades.id')
+            ->select('servicio.id','servicio.especialidad_id','servicio.servicio','servicio.descripcion','especialidades.especialidad as nombre_especialidad')
+            ->where('servicio.'.$criterio,'like','%'. $buscar .'%')
+            ->orderBy('servicio.id', 'desc')->paginate(3);
+
+        }
+
+        return [
+            'pagination'=> [
+                'total'        => $servicios->total(),
+                'current_page' => $servicios->currentPage(),
+                'per_page'     => $servicios->perPage(),
+                'last_page'    => $servicios->lastPage(),
+                'from'         => $servicios->firstItem(),
+                'to'           => $servicios->lastItem(),
+            ],
+            'servicios'=> $servicios
+        ];
     }
 
     /**
@@ -40,11 +66,15 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        $servicios = new Servicio();
-        $especialidad = Especlalidad::FindOrFail($request->especialidad_id);
-        $servicios->servicio = $requers->nombre;
-        $servicio->descripcion = $request->descripcion;
-        $servicio->especialidad()->associate($especialidad);
+        if (!$request->ajax()) return redirect('/');
+        $servicio = new Servicio();
+        //$especialidad = Especialidad::FindOrFail($request->especialidad_id); VER SI SE BORRA LUEGO
+        $servicio-> especialidad_id = $request->especialidad_id;
+        $servicio-> servicio = $request->servicio;
+        $servicio-> descripcion = $request->descripcion;
+       // $servicio->especialidad()->associate($especialidad);  VER SI SE BORRA LUEGO
+       $servicio-> save();
+      
     }
 
     /**
@@ -78,10 +108,13 @@ class ServicioController extends Controller
      */
     public function update(Request $request)
     {
-        $especialidad = Especlalidad::FindOrFail($request->especialidad_id);
-        $servicios->servicio= $requers->nombre;
+        if (!$request->ajax()) return redirect('/');
+        $servicio = Servicio::findOrFail($request->id);
+        $servicio->especialidad_id = $request->especialidad_id;
+        $servicio->servicio = $request->servicio;
         $servicio->descripcion = $request->descripcion;
-        $servicio->especialidad()->associate($especialidad);
+        //$servicio->especialidad()->associate($especialidad);
+        $servicio->save();
     }
 
     /**
