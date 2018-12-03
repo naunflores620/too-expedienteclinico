@@ -7,7 +7,7 @@
 	<!-- <servicio></servicio> -->
 	<!-- <profesionalenmedicina></profesionalenmedicina> -->
 	<!-- <consulta></consulta> -->
-	<examenmatenimiento></examenmatenimiento>
+	<!-- <examenmatenimiento></examenmatenimiento> -->
 	<!-- <horariosclinica></horariosclinica> -->
 	<!-- <receta></receta> -->
 	<!-- <horariospuesto></horariospuesto> -->

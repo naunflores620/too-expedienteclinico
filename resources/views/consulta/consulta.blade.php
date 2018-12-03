@@ -9,9 +9,5 @@
 <body>
     <div id="app">
     </div>
-    <p>
-    gdsihhiu
-    </p>
-    
 </body>
 </html>
