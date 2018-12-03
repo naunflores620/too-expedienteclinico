@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ProfesionalEnMedicina;
+use App\Especialidad;
 
 class ProfesionalEnMedicinaController extends Controller
 {
@@ -16,6 +17,12 @@ class ProfesionalEnMedicinaController extends Controller
     {
         $profesionales_en_medicina = ProfesionalEnMedicina::all();
         return $profesionales_en_medicina;
+    }
+
+    public function buscarMedico()
+    {
+        $medico = ProfesionalEnMedicina::all();
+        return $medico;
     }
 
     /**
