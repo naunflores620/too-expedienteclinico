@@ -21,7 +21,10 @@ Vue.component('signosvitales', require('./components/SignosVitales.vue'));
 Vue.component('medicamento', require('./components/Medicamento.vue'));
 Vue.component('servicio', require('./components/Servicio.vue'));
 Vue.component('profesionalenmedicina', require('./components/ProfesionalEnMedicina.vue'));
-
+Vue.component('receta', require('./components/Receta.vue'));
+Vue.component('horariosclinica', require('./components/HorarioDeClinica.vue'));
+Vue.component('horariospuesto', require('./components/HorarioPuestos.vue'));
+Vue.component('examenmatenimiento', require('./components/ExamenMComponent.vue'));
 const app = new Vue({
     el: '#app'
 });
