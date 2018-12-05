@@ -47,3 +47,6 @@ Route::put('/pem/actualizar', 'ProfesionalEnMedicinaController@update');
 
 //Rutas de trabajador
 Route::get('/trabajador/selectTrabajador','TrabajadorController@selectTrabajador');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
