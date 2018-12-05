@@ -116,3 +116,9 @@ Route::get('/servicios', 'ServicioController@index');
 Route::post('/servicios','ServicioController@store');
 Route::put('/servicios', 'ServicioController@update');
 Route::delete('/servicios', 'servicioController@destroy');
+
+//rutas de Orden de Tratamiento Medico
+Route::get('/rdtm', 'OrdenDeTratamientoMedicoController@index');
+Route::post('/odtm','OrdenDeTratamientoMedicoController@store');
+Route::put('/odtm', 'OrdenDeTratamientoMedicoController@update');
+Route::delete('/odtm', 'OrdenDeTratamientoMedicoController@destroy');

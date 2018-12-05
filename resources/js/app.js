@@ -25,6 +25,10 @@ Vue.component('receta', require('./components/Receta.vue'));
 Vue.component('horariosclinica', require('./components/HorarioDeClinica.vue'));
 Vue.component('horariospuesto', require('./components/HorarioPuestos.vue'));
 Vue.component('examenmatenimiento', require('./components/ExamenMComponent.vue'));
+Vue.component('tratamiento', require('./components/Tratamiento.vue'));
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data :{
+    	menu :0
+    }
 });
